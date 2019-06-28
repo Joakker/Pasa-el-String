@@ -1,61 +1,59 @@
 #include    <stdio.h>
 #include    <stdlib.h>
-#include    <string.h>
 
 #include    <SDL2/SDL.h>
 #include    <SDL2/SDL_ttf.h>
 #include    <SDL2/SDL_image.h>
+#include    <SDL2/SDL_timer.h>
+#include    <SDL2/SDL_mixer.h>
 
-#include    "lib/dict_lib.h"
 #include    "lib/macr_lib.h"
-#include    "lib/iend_lib.h"
+#include    "lib/play_lib.h"
 
-int main()
-{
-    /*  ######################
-        ##VARIABLES AND SUCH##
-        ######################  */
-    int             numEntr;
-    Entrada       * database;
+int main(void) {
+    SDL_Init(SDL_INIT_VIDEO | SDL_INIT_TIMER);
+    Mix_Init(MIX_INIT_MP3);
 
-    bool            game_loop;
-    SDL_Event       window_events;
+    SDL_Window* gameWindow = SDL_CreateWindow(WTITLE, CENTER,CENTER,
+                                              WIDTH, HEIGHT, WFLAGS);
 
-    SDL_Window    * window;
-    SDL_Renderer  * renderer;
-    SDL_Surface   * screen_surface;
-    SDL_Texture   * title_screen;
+    SDL_Surface* windowSurface  = SDL_GetWindowSurface(gameWindow);
+    SDL_Surface* titleScreen    = SDL_LoadBMP("img/img1.bmp");
+    SDL_Surface* gamesScreen    = SDL_LoadBMP("img/img2.bmp");
+    SDL_Surface* scoreScreen    = SDL_LoadBMP("img/img3.bmp");
+    SDL_Surface* currentScreen  = titleScreen;
 
-    TTF_Font *font;
+    SDL_Event wEvents;
+    SDL_bool  isRunnning = SDL_TRUE;
 
-    /*  #########
-        ##SETUP##
-        #########   */
-    numEntr     = count_entries();
-    database    = malloc(sizeof(Entrada) * numEntr);
-    font        = TTF_OpenFont("fnt/OpenSans-Light.ttf", 12);
-
-    read_diccionary(numEntr, database);
-    init_screen(&window, &renderer, &screen_surface, &title_screen);
-
-    /*  #############
-        ##GAME LOOP##
-        #############   */
-
-    while(game_loop)
-    {
-        while (SDL_PollEvent(&window_events))
-        {
-            if (window_events.type == SDL_QUIT) game_loop = false;
+    while(isRunnning){
+        while(SDL_PollEvent(&wEvents)){
+            if (wEvents.type == SDL_QUIT) isRunnning = SDL_FALSE;
+            else if (wEvents.type == SDL_KEYDOWN)
+                switch (wEvents.key.keysym.sym) {
+                    case SDLK_1:
+                        currentScreen = titleScreen;
+                        break;
+                    case SDLK_2:
+                        currentScreen = gamesScreen;
+                        break;
+                    case SDLK_3:
+                        currentScreen = scoreScreen;
+                        break;
+                    case SDLK_ESCAPE:
+                        isRunnning = SDL_FALSE;
+                }
         }
-        SDL_UpdateWindowSurface(window);
+        SDL_BlitSurface(currentScreen, NULL, windowSurface, NULL);
+        SDL_UpdateWindowSurface(gameWindow);
     }
 
-    /*  ########
-        ##EXIT##
-        ########    */
 
-    SDL_DestroyTexture(text);
-    dstr_screen(&title_screen, &renderer, &window);
+    SDL_FreeSurface(titleScreen);
+    SDL_FreeSurface(gamesScreen);
+    SDL_FreeSurface(scoreScreen);
+    SDL_DestroyWindow(gameWindow);
+    Mix_Quit();
+    SDL_Quit();
     return 0;
 }
