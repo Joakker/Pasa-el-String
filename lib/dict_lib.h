@@ -7,6 +7,10 @@ typedef struct {
   char  definicion[500];
 } Entrada;
 
+typedef struct {
+  Entrada* apuntada;
+  char     contiene;
+} Apuntador;
 
 int count_entries() {
   FILE  * diccionario = fopen("txt/diccionario.txt", "r");
