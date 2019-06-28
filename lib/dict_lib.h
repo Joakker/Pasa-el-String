@@ -26,7 +26,8 @@ void  read_diccionary(int numEntr, Entrada  * database) {
   FILE  * diccionario = fopen("txt/diccionario.txt", "r");
 
   for (int i = 0; i < numEntr; ++i) {
-    fscanf(diccionario, "%[^:] %[^\n]", database[i].palabra, database[i].definicion);
+    fscanf(diccionario, "%[^:] %[^\n]", database[i].palabra,
+                                        database[i].definicion);
   }
   fclose(diccionario);
 }

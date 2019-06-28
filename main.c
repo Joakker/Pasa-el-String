@@ -11,12 +11,12 @@
 #include    "lib/play_lib.h"
 
 int main(void) {
-    SDL_Init(SDL_INIT_VIDEO | SDL_INIT_TIMER);
-    Mix_Init(MIX_INIT_MP3);
-
+    SDL_Init(SDL_INIT_VIDEO | SDL_INIT_TIMER | SDL_INIT_AUDIO);
     SDL_Window* gameWindow = SDL_CreateWindow(WTITLE, CENTER,CENTER,
                                               WIDTH, HEIGHT, WFLAGS);
+    Mix_OpenAudio(44100, MIX_DEFAULT_FORMAT, 2, 2048);
 
+    Mix_Music  * bgm            = Mix_LoadMUS("mp3/bgm.mp3");
     SDL_Surface* windowSurface  = SDL_GetWindowSurface(gameWindow);
     SDL_Surface* titleScreen    = SDL_LoadBMP("img/img1.bmp");
     SDL_Surface* gamesScreen    = SDL_LoadBMP("img/img2.bmp");
@@ -24,11 +24,14 @@ int main(void) {
     SDL_Surface* currentScreen  = titleScreen;
 
     SDL_Event wEvents;
-    SDL_bool  isRunnning = SDL_TRUE;
+    bool  isRunnning = true;
 
+    Mix_PlayMusic(bgm, -1);
+
+    SDL_StartTextInput();
     while(isRunnning){
         while(SDL_PollEvent(&wEvents)){
-            if (wEvents.type == SDL_QUIT) isRunnning = SDL_FALSE;
+            if (wEvents.type == SDL_QUIT) isRunnning = false;
             else if (wEvents.type == SDL_KEYDOWN)
                 switch (wEvents.key.keysym.sym) {
                     case SDLK_1:
@@ -41,7 +44,7 @@ int main(void) {
                         currentScreen = scoreScreen;
                         break;
                     case SDLK_ESCAPE:
-                        isRunnning = SDL_FALSE;
+                        isRunnning = false;
                 }
         }
         SDL_BlitSurface(currentScreen, NULL, windowSurface, NULL);
@@ -49,6 +52,8 @@ int main(void) {
     }
 
 
+    SDL_StopTextInput();
+    Mix_FreeMusic(bgm);
     SDL_FreeSurface(titleScreen);
     SDL_FreeSurface(gamesScreen);
     SDL_FreeSurface(scoreScreen);
