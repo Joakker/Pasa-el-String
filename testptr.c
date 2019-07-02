@@ -4,17 +4,23 @@
 
 int main(){
   int numEntr =  count_entries();
-  Entrada* database;
-  Apuntador* myApuntador = (Apuntador*) malloc(sizeof(Apuntador[numEntr]) *26);
-  read_diccionary(numEntr, database);
+  Entrada*    database = (Entrada*) malloc(numEntr * sizeof(Entrada));
+  Apuntador*  directorio[26];
 
-  for (int i = 0 ; i < numEntr ; i++){
-    for (int j = 0 ; database[i].palabra[j] != '\0'; j++) {
-        myApuntador[database[i].palabra[j] - 'a'].apuntada = &database[i]
-        if (j == 0) {
-          myApuntador[database[i].palabra[j] - 'a'].contiene = 0;
-        } else myApuntador[database[i].palabra[j] - 'a'].contiene = 1;
-    }
-  }
+  FILE* diccionario = fopen("txt/diccionario.txt", "r");
+  for (int i = 0 ; i < numEntr; i++)
+    fscanf(diccionario, "%[^:] %[^\n]", database[i].palabra, database[i].definicion);
+
+  for (int i = 0; i < 26 ; ++i)
+    directorio[i] = (Apuntador*) malloc(numEntr * sizeof(Apuntador));
+
+  printf("%s\n", database[0].definicion);
+
+  for (int i = 0 ; i < 26 ; ++i)  free(directorio[i]);
+
+
+  free(database);
+  fclose(diccionario);
+
   return 0;
 }

@@ -9,6 +9,8 @@
 
 #include    "lib/macr_lib.h"
 #include    "lib/play_lib.h"
+#include    "lib/iend_lib.h"
+#include    "lib/dict_lib.h"
 
 int main(void) {
     SDL_Init(SDL_INIT_VIDEO | SDL_INIT_TIMER | SDL_INIT_AUDIO);
@@ -23,13 +25,29 @@ int main(void) {
     SDL_Surface* scoreScreen    = SDL_LoadBMP("img/img3.bmp");
     SDL_Surface* currentScreen  = titleScreen;
 
+    float frameTime = 0;
+    int   prevTime  = 0;
+    int   currTime  = 0;
+    float deltaTime = 0;
+
     SDL_Event wEvents;
     bool  isRunnning = true;
 
     Mix_PlayMusic(bgm, -1);
-
     SDL_StartTextInput();
+
+
     while(isRunnning){
+        prevTime  = currTime;
+        currTime  = SDL_GetTicks();
+        deltaTime = (currTime - prevTime)/1000.0;
+
+        frameTime += deltaTime;
+
+        if (frameTime >= 1.0) {
+          noop();
+        }
+
         while(SDL_PollEvent(&wEvents)){
             if (wEvents.type == SDL_QUIT) isRunnning = false;
             else if (wEvents.type == SDL_KEYDOWN)

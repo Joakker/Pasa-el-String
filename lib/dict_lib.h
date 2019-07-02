@@ -26,15 +26,17 @@ int count_entries() {
   return  numEntr;
 }
 
-void  read_diccionary(int numEntr, Entrada  * database) {
+void  read_dictionary(int numEntr, Entrada  * database) {
   FILE  * diccionario = fopen("txt/diccionario.txt", "r");
-
   for (int i = 0; i < numEntr; ++i) {
     fscanf(diccionario, "%[^:] %[^\n]", database[i].palabra,
                                         database[i].definicion);
   }
   fclose(diccionario);
+
 }
 
-
+void sort_dictionary(int numEntr, Entrada* database, Apuntador** directorio) {
+  /* code */
+}
 #endif // DICT_LIB_H_INCLUDED
