@@ -15,4 +15,6 @@
 #define true    SDL_TRUE
 #define false   SDL_FALSE
 
+#define NLETRS  26
+
 #endif // MACR_LIB_H_INCLUDED

@@ -13,17 +13,24 @@
 #include    "lib/dict_lib.h"
 
 int main(void) {
-    SDL_Init(SDL_INIT_VIDEO | SDL_INIT_TIMER | SDL_INIT_AUDIO);
-    SDL_Window* gameWindow = SDL_CreateWindow(WTITLE, CENTER,CENTER,
-                                              WIDTH, HEIGHT, WFLAGS);
-    Mix_OpenAudio(44100, MIX_DEFAULT_FORMAT, 2, 2048);
 
-    Mix_Music  * bgm            = Mix_LoadMUS("mp3/bgm.mp3");
-    SDL_Surface* windowSurface  = SDL_GetWindowSurface(gameWindow);
-    SDL_Surface* titleScreen    = SDL_LoadBMP("img/img1.bmp");
-    SDL_Surface* gamesScreen    = SDL_LoadBMP("img/img2.bmp");
-    SDL_Surface* scoreScreen    = SDL_LoadBMP("img/img3.bmp");
-    SDL_Surface* currentScreen  = titleScreen;
+
+    /*      #########################
+            ####DECLARE VARIABLES####
+            #########################     */
+
+    SDL_Window*   gameWindow;
+    Mix_Music*    bgm;
+    SDL_Surface*  windowSurface;
+    SDL_Surface*  titleScreen;
+    SDL_Surface*  gamesScreen;
+    SDL_Surface*  scoreScreen;
+    SDL_Surface*  currentScreen;
+
+    int   numEntr     = count_entries();
+    int*  limites     = (int*) malloc(sizeof(int) * NLETRS);
+    Entrada* database = (Entrada*) malloc(sizeof(Entrada) * numEntr);
+    Directorio** dir  = (Directorio**) malloc(sizeof(Directorio*) * NLETRS);
 
     float frameTime = 0;
     int   prevTime  = 0;
@@ -33,9 +40,24 @@ int main(void) {
     SDL_Event wEvents;
     bool  isRunnning = true;
 
-    Mix_PlayMusic(bgm, -1);
-    SDL_StartTextInput();
+    for ( int i = 0 ; i < NLETRS ; i++)
+      dir[i] = (Directorio*) malloc(sizeof(Directorio) * numEntr);
 
+
+    /*      ###############################################
+            ####INITIALIZATION AND ENTERING THE PROGRAM####
+            ###############################################     */
+
+
+    init_screen(&gameWindow, &bgm, &windowSurface, &titleScreen,
+                &gamesScreen, &scoreScreen, &currentScreen);
+
+    read_dictionary(numEntr, database);
+    sort_dictionary(numEntr, database, dir, limites);
+
+    /*      #################
+            ####GAME LOOP####
+            #################      */
 
     while(isRunnning){
         prevTime  = currTime;
@@ -65,18 +87,24 @@ int main(void) {
                         isRunnning = false;
                 }
         }
+
         SDL_BlitSurface(currentScreen, NULL, windowSurface, NULL);
         SDL_UpdateWindowSurface(gameWindow);
     }
 
 
-    SDL_StopTextInput();
-    Mix_FreeMusic(bgm);
-    SDL_FreeSurface(titleScreen);
-    SDL_FreeSurface(gamesScreen);
-    SDL_FreeSurface(scoreScreen);
-    SDL_DestroyWindow(gameWindow);
-    Mix_Quit();
-    SDL_Quit();
+
+    /*      ########################################
+            ####CLEANING AND EXITING THE PROGRAM####
+            ########################################      */
+
+
+
+    dstr_screen(&bgm, &titleScreen, &gamesScreen, &scoreScreen, &gameWindow);
+
+    for ( int i = 0 ; i < numEntr ; i++) free(dir[i]);
+    free(dir);
+    free(limites);
+    free(database);
     return 0;
 }
