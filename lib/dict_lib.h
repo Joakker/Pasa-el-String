@@ -40,25 +40,15 @@ void  read_dictionary(int numEntr, Entrada  * database) {
 
 void  sort_dictionary(int numEntr, Entrada  * database,
                       Directorio  ** dir, int* limites) {
-  for (int i = 0 ; i < numEntr ; i++) {                                         //Selection sort, because god knows merge sort ain't working
-    for (int j = 0 ; j < numEntr - 1 ; j++) {
-      if (database[j].palabra[0] > database[j + 1].palabra[0]) {
-        Entrada aux = database[j];
-        database[j] = database[j + 1];
-        database[j + 1] = aux;
-      }
-    }
-  }
 
   for (int i = 0 ; i < NLETRS ; i++) {
     limites[i] = 0;
   }
 
   for (int i = 0 ; i < numEntr ; i++) {
-    int n = database[i].palabra[0] - 'A';
-    dir[n][limites[n]].entrada = &database[i];
-    printf("%s\n", dir[n][limites[n]].entrada->palabra);
-    limites[i]++;
+    int n = database[i].palabra[0] - 'A';                                       //Calculates the index of the directory where the word will be stored
+    dir[n][limites[n]].entrada = &database[i];                                  //allocates a pointer to the entry in the appropriate location
+    limites[n]++;
   }
 }
 

@@ -19,8 +19,8 @@ int main(void) {
             ####DECLARE VARIABLES####
             #########################     */
 
-    SDL_Window*   gameWindow;
-    Mix_Music*    bgm;
+    SDL_Window *  gameWindow;
+    Mix_Music  *  bgm;
     SDL_Surface*  windowSurface;
     SDL_Surface*  titleScreen;
     SDL_Surface*  gamesScreen;
