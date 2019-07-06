@@ -7,10 +7,10 @@
 #include    <SDL2/SDL_timer.h>
 #include    <SDL2/SDL_mixer.h>
 
-#include    "lib/macr_lib.h"
-#include    "lib/play_lib.h"
-#include    "lib/iend_lib.h"
-#include    "lib/dict_lib.h"
+#include    "lib/macr_lib.h"                                                    //Contains the macros used throughout the program
+#include    "lib/play_lib.h"                                                    //All the structures and functions relevant to the player
+#include    "lib/iend_lib.h"                                                    //Setup and exit functions
+#include    "lib/dict_lib.h"                                                    //Dictionary fuctions
 
 int main(void) {
 
@@ -19,29 +19,29 @@ int main(void) {
             ####DECLARE VARIABLES####
             #########################     */
 
-    SDL_Window *  gameWindow;
-    Mix_Music  *  bgm;
-    SDL_Surface*  windowSurface;
-    SDL_Surface*  titleScreen;
-    SDL_Surface*  gamesScreen;
-    SDL_Surface*  scoreScreen;
+    SDL_Window *  gameWindow;                                                   //This is the displayed window
+    Mix_Music  *  bgm;                                                          //Background music
+    SDL_Surface*  windowSurface;                                                //Window's surface (duh)
+    SDL_Surface*  titleScreen;                                                  //Title screen image
+    SDL_Surface*  gamesScreen;                                                  //Game screen background
+    SDL_Surface*  scoreScreen;                                                  //Score screen background
     SDL_Surface*  currentScreen;
 
-    int   numEntr     = count_entries();
-    int*  limites     = (int*) malloc(sizeof(int) * NLETRS);
-    Entrada* database = (Entrada*) malloc(sizeof(Entrada) * numEntr);
-    Directorio** dir  = (Directorio**) malloc(sizeof(Directorio*) * NLETRS);
+    int       numEntr = count_entries();                                        //Contains the number of entries in the dictionary
+    int*      limites = (int*) malloc(sizeof(int) * NLETRS);                    //Contains the number of entries that begin with each letter
+    Entrada* database = (Entrada*) malloc(sizeof(Entrada) * numEntr);           //Contains all the entries, word and definition separated
+    Directorio**  dir = (Directorio**) malloc(sizeof(Directorio*) * NLETRS);    //Directory matrix of all the words
+    for ( int i = 0 ; i < NLETRS ; i++)                                         //Every row contains all words beginning with one letter
+      dir[i] = (Directorio*) malloc(sizeof(Directorio) * numEntr);              //Every cell points to an entry and contains which letters it has
 
     float frameTime = 0;
     int   prevTime  = 0;
     int   currTime  = 0;
     float deltaTime = 0;
 
-    SDL_Event wEvents;
-    bool  isRunnning = true;
+    SDL_Event wEvents;                                                          //Handles all the events like clicks and keyboard typings
+    bool  isRunnning = true;                                                    //Holds the game loop going
 
-    for ( int i = 0 ; i < NLETRS ; i++)
-      dir[i] = (Directorio*) malloc(sizeof(Directorio) * numEntr);
 
 
     /*      ###############################################
@@ -49,11 +49,11 @@ int main(void) {
             ###############################################     */
 
 
-    init_screen(&gameWindow, &bgm, &windowSurface, &titleScreen,
-                &gamesScreen, &scoreScreen, &currentScreen);
+    init_screen(&gameWindow, &bgm, &windowSurface, &titleScreen,                //Initializes the screen
+                &gamesScreen, &scoreScreen, &currentScreen);                    //Takes care of loading the music and backgrounds
 
-    read_dictionary(numEntr, database);
-    sort_dictionary(numEntr, database, dir, limites);
+    read_dictionary(numEntr, database);                                         //Creates the list of entries on the heap
+    sort_dictionary(numEntr, database, dir, limites);                           //Classifies each entry on the directory matrix
 
     /*      #################
             ####GAME LOOP####
@@ -100,7 +100,7 @@ int main(void) {
 
 
 
-    dstr_screen(&bgm, &titleScreen, &gamesScreen, &scoreScreen, &gameWindow);
+    dstr_screen(&bgm, &titleScreen, &gamesScreen, &scoreScreen, &gameWindow);   //Destroys the screen and frees all the resources
 
     for ( int i = 0 ; i < numEntr ; i++) free(dir[i]);
     free(dir);

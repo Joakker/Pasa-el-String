@@ -1,7 +1,7 @@
 #ifndef IEND_LIB_H_INCLUDED
 #define IEND_LIB_H_INCLUDED
 
-void noop() {
+void noop() {                                                                   //noop() function is a placeholder
   return;
 }
 
@@ -11,13 +11,23 @@ void init_screen( SDL_Window** gameWindow, Mix_Music** bgm,
                   SDL_Surface** currentScreen) {
 
 
-    SDL_Init(SDL_INIT_VIDEO | SDL_INIT_TIMER | SDL_INIT_AUDIO);
-    *gameWindow = SDL_CreateWindow( WTITLE, CENTER,CENTER,
-                                    WIDTH, HEIGHT, WFLAGS);
+    SDL_Init(SDL_INIT_VIDEO | SDL_INIT_TIMER | SDL_INIT_AUDIO);                 //Initializes video, audio and timer
+    Mix_OpenAudio(44100, MIX_DEFAULT_FORMAT, 2, 2048);                          //Opens the audio channels for playing music
+    * gameWindow = SDL_CreateWindow(WTITLE,CENTER,CENTER,WIDTH, HEIGHT, WFLAGS);//Creates the actual window
 
-    Mix_OpenAudio(44100, MIX_DEFAULT_FORMAT, 2, 2048);
+    if (*gameWindow == NULL) {                                                  //Error catching routine
+      printf("Error creating window: %s\n", SDL_GetError());
+      SDL_Quit();
+      exit(1);
+    }
 
-    * bgm            = Mix_LoadMUS("mp3/bgm.mp3");
+    * bgm            = Mix_LoadMUS("mp3/bgm.mp3");                              //Pointer to the music file
+    if (*bgm == NULL) {                                                         //Error catching routine
+      printf("Error loading music: %s", SDL_GetError());
+      SDL_DestroyWindow(*gameWindow);
+      exit(1);
+    }
+
     * windowSurface  = SDL_GetWindowSurface(*gameWindow);
     * titleScreen    = SDL_LoadBMP("img/img1.bmp");
     * gamesScreen    = SDL_LoadBMP("img/img2.bmp");
