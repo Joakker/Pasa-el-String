@@ -55,6 +55,11 @@ int main(void) {
     read_dictionary(numEntr, database);                                         //Creates the list of entries on the heap
     sort_dictionary(numEntr, database, dir, limites);                           //Classifies each entry on the directory matrix
 
+    if (check_dictionary(limites)){
+      printf("Error de inicializacion\n");
+      goto final;
+    }
+
     /*      #################
             ####GAME LOOP####
             #################      */
@@ -99,6 +104,7 @@ int main(void) {
             ########################################      */
 
 
+final:
 
     dstr_screen(&bgm, &titleScreen, &gamesScreen, &scoreScreen, &gameWindow);   //Destroys the screen and frees all the resources
 
