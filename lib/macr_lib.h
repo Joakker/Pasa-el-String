@@ -17,20 +17,4 @@
 
 #define NLETRS  26
 
-#define ALETR   1
-#define BLETR   2
-#define CLETR   4
-#define DLETR   8
-#define ELETR   16
-#define FLETR   32
-#define GLETR   64
-#define HLETR   128
-#define ILETR   256
-#define JLETR   512
-#define KLETR   1024
-#define LLETR   2048
-#define MLETR   4096
-#define NLETR   8192
-#define OLETR   16384
-
 #endif // MACR_LIB_H_INCLUDED

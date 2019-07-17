@@ -52,15 +52,4 @@ void  sort_dictionary(int numEntr, Entrada  * database,
   }
 }
 
-
-void check_dictionary(int* limites) {
-  int check = 0;
-  for (int i = 0 ; i < NLETRS ; i++)
-    if (limites[i] >= 2 ) check++;
-    else printf("Insuficientes entradas con %c\n", 'A' + i);
-
-  if (check == NLETRS) return true;
-  else return false;
-}
-
 #endif // DICT_LIB_H_INCLUDED
