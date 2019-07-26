@@ -8,8 +8,8 @@ typedef struct {
 } Entrada;
 
 typedef struct {
-  Entrada*  entrada;
-  Uint32    letras;
+  Entrada*      entrada;
+  unsigned int  letras;
 } Directorio;
 
 int   count_entries() {
@@ -38,12 +38,9 @@ void  read_dictionary(int numEntr, Entrada  * database) {
 
 }
 
-void  sort_dictionary(int numEntr, Entrada  * database,
-                      Directorio  ** dir, int* limites) {
+void  sort_dictionary(int numEntr, Entrada  * database, Directorio  ** dir, int* limites) {
 
-  for (int i = 0 ; i < NLETRS ; i++) {
-    limites[i] = 0;
-  }
+  for (int i = 0 ; i < NLETRS ; i++)  limites[i] = 0;
 
   for (int i = 0 ; i < numEntr ; i++) {
     int n = database[i].palabra[0] - 'A';                                       //Calculates the index of the directory where the word will be stored
