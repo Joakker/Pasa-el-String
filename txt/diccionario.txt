@@ -1,2 +1,99 @@
-Pan:    Wea para comer
-Agua:   Wea para beber
+algoritmo:conjunto ordenado de instrucciones hacia un ordenador que permite hallar soluciones a problemas
+
+amd:Famosa marca por fabricacion de procesadores y microprocesadores
+
+bite:Unidad base para la computacion que contiene 0 y 1
+
+byte:Conjunto basico de bits generalmente usado
+
+cainf:Institucion estudiantil que nadie sabe que hace
+
+camara:Dispositivo capaz de registrar imagenes estaticas o en movimiento
+
+datos:termino para referirse a la informacion que el usuario introduce y procesa el programa
+
+dlc:Electronics Arts (EA) famosa compañia de videojuegos por tener que comprar....
+
+escaner:Dipositivo que convierte imagenes impresas o documentos a formato digital mediante uso de la luz
+
+impresora:Dispositivo que "escriben" informacion de salida en el papel
+
+firewall:programa que controla el acceso de una computadora a la red por motivos de seguridad
+
+festival:Palabra clave de la frase celebre del profesor Asin
+
+lg:Una de las mayores empresas eletronicas a nivel mundial caracterizada por sus celulares y televisores
+
+google:Buscador web mas famoso a nivel mundial
+
+herz:Unidad de medida para la velocidad a la que trabaja un procesador
+
+yahoo!:Empresa global dueña de un portal de internet, buscador y protegonista de los memes "Preguntas mas estupidas"
+
+gigabyte:Unidad que contiene 1.000.000.000 bytes
+
+ip:"matricula" que identifica a un ordenador en internet
+
+java:Lenguaje de programación orientado a objetos desarrollado por Sun Microsystems
+
+joystick:Dispositivo de entrega con forma palanca utilizado para videojuegos
+
+kilobyte:unidad que contiene 1000 bytes
+
+kernel:Parte fundamental de un programa, por lo general de un sistema operativo que reside en memoria todo el tiempo y que provee los servicios básicos.
+lol:Moba mas jugado del mundo
+
+lan:Termino para referirse a Red de area local
+
+malware:Programas diseñados para causar daños al hardware, software, redes,... como los virus, troyanos, gusanos, nukes
+
+mbps:Termino para referirse a megabytes por segundo
+
+Netflix:Plataforma digital para stremear series o peliculas
+
+Instagram:Plataforma digital mas conocida para compartir fotografias
+
+router:Componente de hardware que te mandar a reiniciar cada vez que algo falla
+
+raton:Componente de hardware que sirve para mover el puntero del sistema operativo
+
+play:Dispositivo de entretenimiento que siempre te pide tu primo cuando llega
+
+procesador:Componente de hardware que hace una cantidad de calculos por segundo
+
+quicksort:Metodo de ordenamiento ampliamente usado en arreglos vectores y matrices
+
+QR:Codigo de barras bidimensional cuadrada que puede almacenar los datos codificados
+
+arreglo:Tipo de variable que actua en la memoria como hileraContiene la R
+
+ram:tipo de memoria de computadora rápida, pero de almacenamiento transitorio
+
+snake:videojuego de la primera generacion de celulares con protagonista una serpiente
+
+silicio:Elemento fundamental para la fabricacion de microchips
+
+teclado:dispositivo de entrada usado para introducir la informacion de manera escrita
+
+touch:caracteristica de hardware que permite la manipulacion del dispositivo con los dedos
+
+outlook:Servicio de correos electronicos de propiedad de Microsoft
+
+puntero:Elemento del lenguaje C que te da cancer
+
+virus:programa informatico que se ejecuta en el ordenador sin previo aviso y que puede corromper el resto de los programas, ficheros de datos e, incluso el mismo sistema operativo
+
+vidal:Mejor profesor valorado de la carrera informatica
+xbox:Consola de videojuego de Microsoft
+
+xeon:Submarca de procesadores de Intel
+
+youtube:Plataforma digital para subir videos mas conocida
+
+yandex:Empresa multinacional de tecnología rusa especializada en servicios y productos relacionados con Internet
+
+zilean:Campeon de videojuego Lol que se caracteriza por lanzar bombas de tiempo
+
+amazon:Compañia estadounidense de comercio electronico y servicios
+
+
