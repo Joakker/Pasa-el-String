@@ -1,6 +1,9 @@
 #ifndef DICT_LIB_H_INCLUDED
 #define DICT_LIB_H_INCLUDED
 
+#include <ctype.h>
+#include <stdbool.h>
+#include <stdio.h>
 
 typedef struct {
   char  palabra[25];
@@ -12,7 +15,7 @@ typedef struct {
   unsigned int  letras;
 } Directorio;
 
-int   count_entries() {
+int     count_entries() {
   FILE  * diccionario = fopen("txt/diccionario.txt", "r");
   char    c = getc(diccionario);
   int     numEntr = 0;
@@ -26,11 +29,15 @@ int   count_entries() {
   return  numEntr;
 }
 
-void  read_dictionary(int numEntr, Entrada  * database) {
+void    read_dictionary(int numEntr, Entrada  * database) {
   FILE  * diccionario = fopen("txt/diccionario.txt", "r");
+  int aux;
   for (int i = 0; i < numEntr; ++i) {
     fscanf(diccionario, "%[^:]", database[i].palabra);
     getc(diccionario);
+    aux = getc(diccionario);
+    while (isspace(aux)) aux = getc(diccionario);
+    ungetc(aux, diccionario);
     fscanf(diccionario,"%[^\n]", database[i].definicion);
     getc(diccionario);
   }
@@ -38,7 +45,7 @@ void  read_dictionary(int numEntr, Entrada  * database) {
 
 }
 
-void  sort_dictionary(int numEntr, Entrada  * database, Directorio  ** dir, int* limites) {
+void    sort_dictionary(int numEntr, Entrada  * database, Directorio  ** dir, int* limites) {
 
   for (int i = 0 ; i < NLETRS ; i++)  limites[i] = 0;
 
@@ -49,4 +56,10 @@ void  sort_dictionary(int numEntr, Entrada  * database, Directorio  ** dir, int*
   }
 }
 
+bool    compare(char* s1, char* s2) {
+        for (int i = 0 ; s1[i] != '\0' && s2[i] != '\0' ; ++i)
+                if (tolower(s1[i]) != tolower(s2[i]))
+                        return false;
+        return true;
+}
 #endif // DICT_LIB_H_INCLUDED
