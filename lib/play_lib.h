@@ -10,16 +10,17 @@ typedef struct {
   unsigned int  time;
 } Player;
 
-void center(int row, char* title) {
+void center(int row, char* title, WINDOW* win) {
         int len, indent, y, width;
 
-        getmaxyx(stdscr, y, width);
+        getmaxyx(win, y, width);
 
         len = strlen(title);
         indent = (width - len) / 2;
 
-        mvaddstr(row, indent, title);
+        mvwaddstr(win, row, indent, title);
 }
+
 char* title_row(int i) {
         switch(i){
                 case 1: return TITLE_1;
@@ -29,6 +30,15 @@ char* title_row(int i) {
                 case 5: return TITLE_5;
                 case 6: return TITLE_6;
         }
+}
+
+Player* init_players() {
+        Player* jugadores = (Player*) malloc(sizeof(Player)*2);
+        for (int i = 0; i < 2 ; i++) {
+                jugadores[i].successes = jugadores[i].mistakes = 0;
+                jugadores[i].time = 10;
+        }
+        return jugadores;
 }
 
 #endif //PLAY_LIB_H_INCLUDED

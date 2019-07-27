@@ -1,9 +1,7 @@
 #ifndef DICT_LIB_H_INCLUDED
 #define DICT_LIB_H_INCLUDED
 
-#include <ctype.h>
-#include <stdbool.h>
-#include <stdio.h>
+#include "incl_lib.h"
 
 typedef struct {
   char  palabra[25];
@@ -62,4 +60,12 @@ bool    compare(char* s1, char* s2) {
                         return false;
         return true;
 }
+
+Directorio** init_directory(int numEntr) {
+        Directorio** dir = (Directorio**) malloc(sizeof(Directorio*) * NLETRS);
+        for(int i = 0; i < NLETRS ; i++)
+                dir[i] = (Directorio*) malloc(sizeof(Directorio)* numEntr);
+        return dir;
+}
+
 #endif // DICT_LIB_H_INCLUDED
