@@ -21,21 +21,20 @@ int main(void){
         sort_dictionary(numEntr, database, dir, limites);                       //classifies each entry into the directory
 
         Player* jugadores = init_players();                                     //Array containing both players
-        bool    j1_activo = true;                                               //switch between both players
         bool    is_running= true;
 
         initscr();                                                              //initializes screen on the terminal
         if (has_colors()) start_color();                                        //initializes colours if possible
 
-        WINDOW* game    = newwin(0, 0, 0, 0);                                   //pointer to the game window
         WINDOW* name    = newwin(10, 30, (LINES / 2) - 5,(COLS / 2) - 15);      //pointer to the 'introduce your name' screen
-
         WINDOW* score   = newwin(0, 0, 0, 0);                                   //pointer to the scores window
-        WINDOW* timer   = subwin(game, 5, 20, 1, 1);                            //pointer to the timer window
 
 
-
-
+        WINDOW* game    = newwin(0, 0, 0, 0);                                   //pointer to the game window
+        WINDOW* pinfo1  = subwin(game, (ROWS / 2), 30, 1, 1);                   //player 1's info
+        WINDOW* pinfo2  = subwin(game, (ROWS / 2), 30, (ROWS / 2), 1);          //player 2's info
+        WINDOW* define  = subwin(game, 10, (COLS - 30), 1, 30);                 //definition of the current word
+        WINDOW* answer  = subwin(game, (ROWS - 10),(COLS - 30),(ROWS - 10), 30);//player's answer
 
 
         TITLE_SCREEN:
@@ -71,11 +70,30 @@ int main(void){
         }
 
 
+        bool activo = (int) rand() % 2;
+        char answ[MAXLTR] = "";
 
-        mvwprintw(game, 10, 10, "Hello world!");
-        wrefresh(game);
-        getch();
+        while (is_running) {
+                draw_info(1), draw_info(2);                                     //draws the players' info on the side of the screen
+                draw_def();
+                mvwscanw(answer, 10, 10, "%s", answ);
 
+                if (compare(answ, dir[i][j].entrada->palabra)) {
+                        jugadores[activo].successes++;
+                        jugadores[activo].cur_letter++;
+                        jugadores[activo].time -= strlen(answ);
+                } else if (compare(answ, "pasapalabra")) {
+                        jugadores[activo].cur_letter++;
+                        activo = (activo == 1)? 0 : 1;
+                } else {
+                        jugadores[activo].mistakes++;
+                        jugadores[activo].cur_letter++;
+                        jugadores[activo].time -= strlen(answ);
+                }
+
+                for (int i = 0 ; i < 2; i++)
+                        if (jugadores[i].time <= 0 || jugadores[i].cur_letter >= MAXLTR) break;
+        }
 
 
 
@@ -83,6 +101,13 @@ int main(void){
 
 
         END_SCREEN:
-                endwin();
+
+        WINDOW* ganador = newwin(10, 10, (LINES / 2) - 5, (COLS / 2) - 5);
+        center(5, winner(jugadores), ganador);
+        box(ganador, 0, 0);
+        wrefresh(ganador);
+        getch();
+
+        endwin();
         return 0;
 }

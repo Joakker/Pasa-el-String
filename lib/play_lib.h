@@ -7,6 +7,7 @@ typedef struct {
   char          name[25];
   unsigned char successes;
   unsigned char mistakes;
+  unsigned char cur_letter;
   unsigned int  time;
 } Player;
 
@@ -36,7 +37,8 @@ Player* init_players() {
         Player* jugadores = (Player*) malloc(sizeof(Player)*2);
         for (int i = 0; i < 2 ; i++) {
                 jugadores[i].successes = jugadores[i].mistakes = 0;
-                jugadores[i].time = 10;
+                jugadores[i].cur_letter = 0;
+                jugadores[i].time = 120;
         }
         return jugadores;
 }
