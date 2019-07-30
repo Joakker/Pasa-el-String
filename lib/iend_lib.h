@@ -1,52 +1,16 @@
-#ifndef IEND_LIB_H_INCLUDED
-#define IEND_LIB_H_INCLUDED
+#ifndef IEND_LIB_INCLUDED
+#define IEND_LIB_INCLUDED
 
-void noop() {                                                                   //noop() function is a placeholder
-  return;
-}
+#define draw_info(N)  mvwprintw(pinfo##N, 1, 1, "Info de %s\n", jugadores[N - 1].name);      \
+                      mvwprintw(pinfo##N, 2, 1, "Puntos:\t%d\n", jugadores[N - 1].successes);\
+                      mvwprintw(pinfo##N, 3, 1, "Errores:\t%d\n", jugadores[N - 1].mistakes);\
+                      mvwprintw(pinfo##N, 4, 1, "Pulsadas\t%d\n", jugadores[N - 1].time);    \
+                      box(pinfo##N, 0, 0);                                                   \
 
-void init_screen( SDL_Window** gameWindow, Mix_Music** bgm,
-                  SDL_Surface** windowSurface, SDL_Surface** titleScreen,
-                  SDL_Surface** gamesScreen, SDL_Surface** scoreScreen,
-                  SDL_Surface** currentScreen) {
+#define draw_def()      int i = jugadores[activo].cur_letter;\
+                        int j = rand() % (limites[jugadores[activo].cur_letter] + 1);\
+                        center(5, dir[i][j].entrada->definicion, define);
 
 
-    SDL_Init(SDL_INIT_VIDEO | SDL_INIT_TIMER | SDL_INIT_AUDIO);                 //Initializes video, audio and timer
-    Mix_OpenAudio(44100, MIX_DEFAULT_FORMAT, 2, 2048);                          //Opens the audio channels for playing music
-    * gameWindow = SDL_CreateWindow(WTITLE,CENTER,CENTER,WIDTH, HEIGHT, WFLAGS);//Creates the actual window
 
-    if (*gameWindow == NULL) {                                                  //Error catching routine
-      printf("Error creating window: %s\n", SDL_GetError());
-      SDL_Quit();
-      exit(1);
-    }
-
-    * bgm            = Mix_LoadMUS("mp3/bgm.mp3");                              //Pointer to the music file
-    if (*bgm == NULL) {                                                         //Error catching routine
-      printf("Error loading music: %s", SDL_GetError());
-      SDL_DestroyWindow(*gameWindow);
-      exit(1);
-    }
-
-    * windowSurface  = SDL_GetWindowSurface(*gameWindow);
-    * titleScreen    = SDL_LoadBMP("img/img1.bmp");
-    * gamesScreen    = SDL_LoadBMP("img/img2.bmp");
-    * scoreScreen    = SDL_LoadBMP("img/img3.bmp");
-    * currentScreen  = *titleScreen;
-    SDL_StartTextInput();
-    Mix_PlayMusic(*bgm, -1);
-}
-
-void dstr_screen( Mix_Music** bgm, SDL_Surface** titleScreen,
-                  SDL_Surface** gamesScreen, SDL_Surface** scoreScreen,
-                  SDL_Window** gameWindow) {
-  SDL_StopTextInput();
-  Mix_FreeMusic(*bgm);
-  SDL_FreeSurface(*titleScreen);
-  SDL_FreeSurface(*gamesScreen);
-  SDL_FreeSurface(*scoreScreen);
-  SDL_DestroyWindow(*gameWindow);
-  Mix_Quit();
-  SDL_Quit();
-}
-#endif // IEND_LIB_H_INCLUDED
+#endif  //IEND_LIB_INCLUDED
