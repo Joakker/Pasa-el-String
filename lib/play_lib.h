@@ -43,10 +43,24 @@ Player* init_players() {
         return jugadores;
 }
 
-char*   winner(Player* jugadores) {
+Player   winner(Player* jugadores) {
 
-        for (int i = 0 ; i < 2 ; i++) {
-                if (jugadores[i].cur_letter >= MAXLTR) return jugadores[i].name;
+        if (jugadores[1].successes == jugadores[0].successes) {
+                if (jugadores[0].mistakes == jugadores[1].mistakes) {
+                        Player empate;
+                        strcpy(empate.name, "Empate");
+                        empate.successes = empate.mistakes = 0;
+                        empate.time = 0;
+                        return empate;
+                } else if (jugadores[0].mistakes > jugadores[1].mistakes) {
+                        return jugadores[1];
+                } else {
+                        return jugadores[0];
+                }
+        } else if (jugadores[0].successes > jugadores[1].successes) {
+                return jugadores[0];
+        } else {
+                return jugadores[1];
         }
 
 }

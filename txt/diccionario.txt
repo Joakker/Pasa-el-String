@@ -20,7 +20,7 @@ Instagram:      Plataforma digital mas conocida para compartir fotografias
 Java:           Lenguaje de programación orientado a objetos desarrollado por Sun Microsystems
 Joystick:       Dispositivo de entrega con forma palanca utilizado para videojuegos
 Kilobyte:       Unidad que contiene 1000 bytes
-Kernel:         Parte fundamental de un programa, por lo general de un sistema operativo que reside en memoria todo el tiempo y que provee los servicios básicos.
+Kernel:         Parte fundamental de un programa, por lo general de un sistema operativo que reside en memoria todo el tiempo
 LG:             Una de las mayores empresas eletronicas a nivel mundial caracterizada por sus celulares y televisores
 LoL:            Moba mas jugado del mundo
 LAN:            Termino para referirse a Red de area local

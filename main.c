@@ -4,6 +4,7 @@
 #include "lib/play_lib.h"
 #include "lib/dict_lib.h"
 
+
 int main(void){
 
         /*      ##########################
@@ -54,7 +55,6 @@ int main(void){
                 case NLN_KEY:   goto GAME_SCREEN;                               //enter to proceed to fame screen
                 default:        goto TITLE_SCREEN;                              //otherwise the process repeats again
         }
-
 
 
 
@@ -109,20 +109,21 @@ int main(void){
                 draw_info(1);
                 draw_info(2);
                 for (int i = 0 ; i < 2; i++)
-                        if (jugadores[i].time <= 0 || jugadores[i].cur_letter >= NLETRS) break;
+                        if (jugadores[i].time <= 0 || jugadores[i].cur_letter >= NLETRS) is_running = false;
         }
 
 
-
-
-
-        WINDOW* ganador = newwin(10, 10, (LINES / 2) - 5, (COLS / 2) - 5);
-        center(5, winner(jugadores), ganador);
+        WINDOW* ganador = newwin(10, 30, (LINES / 2) - 5, (COLS / 2) - 5);
+        Player  win = winner(jugadores);
+        center(4, "El ganador es:", ganador);
+        center(5, win.name, ganador);
         box(ganador, 0, 0);
         wrefresh(ganador);
         getch();
-
+	FILE* scores = fopen("txt/highscores.txt", "a");
+	fprintf(scores, "%s\t%d\t%d\t%d\n",win.name, win.successes, win.mistakes, win.time);
         END_SCREEN:
+
         endwin();
         return 0;
 }
