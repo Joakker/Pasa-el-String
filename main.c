@@ -10,15 +10,16 @@ int main(void){
                 ##SETUP AND DECLARATIONS##
                 ##########################      */
 
+        srand(time(NULL));
 
         int numEntr       = count_entries();                                    //number of entries in the dictionary
         int limites[NLETRS];                                                    //number of entries per letter
 
         Entrada* database = (Entrada*) malloc(sizeof(Entrada) * numEntr);       //list of entries
-        Directorio** dir  = init_directory(numEntr);                            //directory of entries grouped by letter
+        //Directorio** dir  = init_directory(numEntr);                            //directory of entries grouped by letter
 
         read_dictionary(numEntr, database);                                     //reads the dictionary text file
-        sort_dictionary(numEntr, database, dir, limites);                       //classifies each entry into the directory
+        //sort_dictionary(numEntr, database, dir, limites);                       //classifies each entry into the directory
 
         Player* jugadores = init_players();                                     //Array containing both players
         bool    is_running= true;
@@ -31,11 +32,11 @@ int main(void){
 
 
         WINDOW* game    = newwin(0, 0, 0, 0);                                   //pointer to the game window
-        WINDOW* pinfo1  = subwin(game, (ROWS / 2), 30, 1, 1);                   //player 1's info
-        WINDOW* pinfo2  = subwin(game, (ROWS / 2), 30, (ROWS / 2), 1);          //player 2's info
-        WINDOW* define  = subwin(game, 10, (COLS - 30), 1, 30);                 //definition of the current word
-        WINDOW* answer  = subwin(game, (ROWS - 10),(COLS - 30),(ROWS - 10), 30);//player's answer
-
+        WINDOW* pinfo1  = subwin(game, (LINES / 2), 30, 0, 0);                  //player 1's info
+        WINDOW* pinfo2  = subwin(game, (LINES / 2), 30, (LINES / 2), 0);        //player 2's info
+        WINDOW* define  = subwin(game, 10, (COLS - 31), 0, 31);                 //definition of the current word
+        WINDOW* answer  = subwin(game, 5, 30, 20 , (COLS / 2));                 //player's answer
+        //WINDOW* hint    = subwin(game, 5, 30, 11 , (COLS / 2));
 
         TITLE_SCREEN:
 
@@ -70,37 +71,50 @@ int main(void){
         }
 
 
-        bool activo = (int) rand() % 2;
-        char answ[MAXLTR] = "";
+        bool activo = false;
+        Entrada* current;
+        char answ[MAXLTR];
+        draw_info(1);
+        draw_info(2);                                     //draws the players' info on the side of the screen
 
         while (is_running) {
-                draw_info(1), draw_info(2);                                     //draws the players' info on the side of the screen
-                draw_def();
-                mvwscanw(answer, 10, 10, "%s", answ);
+                box(define, 0, 0);
+                box(answer, 0, 0);
+                //box(hint,   0, 0);
+                wrefresh(game);
 
-                if (compare(answ, dir[i][j].entrada->palabra)) {
+
+                current = search(numEntr, database, 'a' + jugadores[activo].cur_letter);
+                center(5, current->definicion, define);
+                center(6, "Contiene la ", define);
+                waddch(define, 'A' + jugadores[activo].cur_letter);
+                wrefresh(define);
+
+                mvwscanw(answer, 2, 3, "%s", answ);
+
+                if (compare(answ, current->palabra)) {
+                        jugadores[activo].cur_letter++;
+                        jugadores[activo].time -= (unsigned char) strlen(answ);
                         jugadores[activo].successes++;
-                        jugadores[activo].cur_letter++;
-                        jugadores[activo].time -= strlen(answ);
-                } else if (compare(answ, "pasapalabra")) {
-                        jugadores[activo].cur_letter++;
-                        activo = (activo == 1)? 0 : 1;
+                } else if (compare(answ, "Pasapalabra")) {
+                        activo = (activo == true)? false : true;
                 } else {
-                        jugadores[activo].mistakes++;
-                        jugadores[activo].cur_letter++;
                         jugadores[activo].time -= strlen(answ);
+                        jugadores[activo].mistakes++;
+                        activo = (activo == true)? false : true;
                 }
 
+                werase(game);
+
+                draw_info(1);
+                draw_info(2);
                 for (int i = 0 ; i < 2; i++)
-                        if (jugadores[i].time <= 0 || jugadores[i].cur_letter >= MAXLTR) break;
+                        if (jugadores[i].time <= 0 || jugadores[i].cur_letter >= NLETRS) break;
         }
 
 
 
-        SCORE_SCREEN:
 
-
-        END_SCREEN:
 
         WINDOW* ganador = newwin(10, 10, (LINES / 2) - 5, (COLS / 2) - 5);
         center(5, winner(jugadores), ganador);
@@ -108,6 +122,7 @@ int main(void){
         wrefresh(ganador);
         getch();
 
+        END_SCREEN:
         endwin();
         return 0;
 }

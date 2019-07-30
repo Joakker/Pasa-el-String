@@ -4,14 +4,17 @@
 #include "incl_lib.h"
 
 typedef struct {
-  char  palabra[25];
-  char  definicion[500];
+        char    palabra[25];
+        char    definicion[500];
+        bool    used;
 } Entrada;
 
 typedef struct {
-  Entrada*      entrada;
-  unsigned int  letras;
+        Entrada*      entrada;
+        unsigned int  letras;
 } Directorio;
+
+#define bin(N)  1 << (tolower(N) - 'a')
 
 int     count_entries() {
   FILE  * diccionario = fopen("txt/diccionario.txt", "r");
@@ -28,30 +31,35 @@ int     count_entries() {
 }
 
 void    read_dictionary(int numEntr, Entrada  * database) {
-  FILE  * diccionario = fopen("txt/diccionario.txt", "r");
-  int aux;
-  for (int i = 0; i < numEntr; ++i) {
-    fscanf(diccionario, "%[^:]", database[i].palabra);
-    getc(diccionario);
-    aux = getc(diccionario);
-    while (isspace(aux)) aux = getc(diccionario);
-    ungetc(aux, diccionario);
-    fscanf(diccionario,"%[^\n]", database[i].definicion);
-    getc(diccionario);
-  }
-  fclose(diccionario);
+        FILE  * diccionario = fopen("txt/diccionario.txt", "r");
+        int aux;
+        for (int i = 0; i < numEntr; ++i) {
+                fscanf(diccionario, "%[^:]", database[i].palabra);
+                getc(diccionario);
+                aux = getc(diccionario);
+                while (isspace(aux)) aux = getc(diccionario);
+                ungetc(aux, diccionario);
+                fscanf(diccionario,"%[^\n]", database[i].definicion);
+                getc(diccionario);
+        }
+        fclose(diccionario);
+
+        for (int i = 0; i < numEntr; i++) {
+                database[i].used = false;
+        }
 
 }
 
-void    sort_dictionary(int numEntr, Entrada  * database, Directorio  ** dir, int* limites) {
+Entrada*search(int numEntr, Entrada* database, char c) {
 
-  for (int i = 0 ; i < NLETRS ; i++)  limites[i] = 0;
+        int n, m;
 
-  for (int i = 0 ; i < numEntr ; i++) {
-    int n = database[i].palabra[0] - 'A';                                       //Calculates the index of the directory where the word will be stored
-    dir[n][limites[n]].entrada = &database[i];                                  //allocates a pointer to the entry in the appropriate location
-    limites[n]++;
-  }
+        do {
+                n = rand() % numEntr;
+                m = rand() % strlen(database[n].palabra);
+        } while (tolower(database[n].palabra[m]) != c);
+
+        return &database[n];
 }
 
 bool    compare(char* s1, char* s2) {
@@ -59,13 +67,6 @@ bool    compare(char* s1, char* s2) {
                 if (tolower(s1[i]) != tolower(s2[i]))
                         return false;
         return true;
-}
-
-Directorio** init_directory(int numEntr) {
-        Directorio** dir = (Directorio**) malloc(sizeof(Directorio*) * NLETRS);
-        for(int i = 0; i < NLETRS ; i++)
-                dir[i] = (Directorio*) malloc(sizeof(Directorio)* numEntr);
-        return dir;
 }
 
 #endif // DICT_LIB_H_INCLUDED

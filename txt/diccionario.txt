@@ -46,5 +46,5 @@ Xbox:           Consola de videojuego de Microsoft
 Xeon:           Submarca de procesadores de Intel
 Youtube:        Plataforma digital para subir videos mas conocida
 Yandex:         Empresa multinacional de tecnología rusa especializada en servicios y productos relacionados con Internet
-Yahoo:          Empresa global dueña de un portal de internet, buscador y protegonista de los memes "Preguntas mas estupidas"
+Yahoo:          Empresa global dueña de un portal de internet, buscador y protagonista de los memes "Preguntas mas estupidas"
 Zilean:         Campeon de videojuego Lol que se caracteriza por lanzar bombas de tiempo

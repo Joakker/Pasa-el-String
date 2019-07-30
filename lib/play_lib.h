@@ -4,14 +4,14 @@
 void noop();
 
 typedef struct {
-  char          name[25];
-  unsigned char successes;
-  unsigned char mistakes;
-  unsigned char cur_letter;
-  unsigned int  time;
+        char          name[25];
+        unsigned char successes;
+        unsigned char mistakes;
+        unsigned char cur_letter;
+        unsigned int  time;
 } Player;
 
-void center(int row, char* title, WINDOW* win) {
+void    center(int row, char* title, WINDOW* win) {
         int len, indent, y, width;
 
         getmaxyx(win, y, width);
@@ -22,7 +22,7 @@ void center(int row, char* title, WINDOW* win) {
         mvwaddstr(win, row, indent, title);
 }
 
-char* title_row(int i) {
+char*   title_row(int i) {
         switch(i){
                 case 1: return TITLE_1;
                 case 2: return TITLE_2;
@@ -38,9 +38,17 @@ Player* init_players() {
         for (int i = 0; i < 2 ; i++) {
                 jugadores[i].successes = jugadores[i].mistakes = 0;
                 jugadores[i].cur_letter = 0;
-                jugadores[i].time = 120;
+                jugadores[i].time = 60;
         }
         return jugadores;
+}
+
+char*   winner(Player* jugadores) {
+
+        for (int i = 0 ; i < 2 ; i++) {
+                if (jugadores[i].cur_letter >= MAXLTR) return jugadores[i].name;
+        }
+
 }
 
 #endif //PLAY_LIB_H_INCLUDED
